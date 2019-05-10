@@ -16,6 +16,15 @@ const schema = `
   }
   type Mortgage {
     id: ID!
+    rate_type: Int!,
+    term: Int!,
+    interest_rate: Float!,
+    rate_hold_data: String!,
+    monthly_prepayment: Float!,
+    lump_sum_prepayment: Float!,
+    pre_approval: Boolean!,
+    prime_adjustment: Float,
+    mortgage_provider: String!
   }
   type Author {
     id: ID!
@@ -36,9 +45,11 @@ const schema = `
     post(id: ID!): Post
     author(id: ID!): Author
     authors: [Author!]!
+    mortgages: [Mortgage!]!
   }
   type Mutation {
     createPost(title: String, content:String!, authorId: ID!): Post!
+    createMortgage(rate_type: Int!, term: Int!, interest_rate: Float!, rate_hold_data: String!, monthly_prepayment: Float!, lump_sum_prepayment: Float!, pre_approval: Boolean!, prime_adjustment: Float, mortgage_provider: String!): Mortgage!
     updatePost(id: ID!, title: String, content:String!): [Int!]!
     deletePost(id: ID!): Int!
   }

@@ -1,104 +1,93 @@
-const Classroom = require('../models').Classroom;
+const Course = require('../models').Course;
 const Student = require('../models').Student;
+const Lecturer = require('../models').Lecturer;
 
 module.exports = {
     list(req, res) {
-      return Classroom
+      return Course
         .findAll({
           include: [{
             model: Student,
             as: 'students'
+          },{
+            model: Lecturer,
+            as: 'lecturer'
           }],
           order: [
             ['createdAt', 'DESC'],
             [{ model: Student, as: 'students' }, 'createdAt', 'DESC'],
           ],
         })
-        .then((classrooms) => res.status(200).send(classrooms))
+        .then((courses) => res.status(200).send(courses))
         .catch((error) => { res.status(400).send(error); });
     },
   
     getById(req, res) {
-      return Classroom
+      return Course
         .findById(req.params.id, {
           include: [{
-            model: Student,
-            as: 'students'
+            model: Course,
+            as: 'course'
           }],
         })
-        .then((classroom) => {
-          if (!classroom) {
+        .then((course) => {
+          if (!course) {
             return res.status(404).send({
-              message: 'Classroom Not Found',
+              message: 'Course Not Found',
             });
           }
-          return res.status(200).send(classroom);
+          return res.status(200).send(course);
         })
         .catch((error) => res.status(400).send(error));
     },
   
     add(req, res) {
-      return Classroom
+      return Course
         .create({
-          class_name: req.body.class_name,
+          course_name: req.body.course_name,
         })
-        .then((classroom) => res.status(201).send(classroom))
+        .then((course) => res.status(201).send(course))
         .catch((error) => res.status(400).send(error));
     },
   
     update(req, res) {
-      return Classroom
+      return Course
         .findById(req.params.id, {
           include: [{
-            model: Student,
-            as: 'students'
+            model: Course,
+            as: 'course'
           }],
         })
-        .then(classroom => {
-          if (!classroom) {
+        .then(course => {
+          if (!course) {
             return res.status(404).send({
-              message: 'Classroom Not Found',
+              message: 'Course Not Found',
             });
           }
-          return classroom
+          return course
             .update({
-              class_name: req.body.class_name || classroom.class_name,
+              course_name: req.body.course_name || classroom.course_name,
             })
-            .then(() => res.status(200).send(classroom))
+            .then(() => res.status(200).send(course))
             .catch((error) => res.status(400).send(error));
         })
         .catch((error) => res.status(400).send(error));
     },
   
     delete(req, res) {
-      return Classroom
+      return Course
         .findById(req.params.id)
-        .then(classroom => {
-          if (!classroom) {
+        .then(course => {
+          if (!course) {
             return res.status(400).send({
-              message: 'Classroom Not Found',
+              message: 'Course Not Found',
             });
           }
-          return classroom
+          return course
             .destroy()
             .then(() => res.status(204).send())
             .catch((error) => res.status(400).send(error));
         })
         .catch((error) => res.status(400).send(error));
-    },
-
-    addWithStudents(req, res) {
-        return Classroom
-          .create({
-            class_name: req.body.class_name,
-            students: req.body.students,
-          }, {
-            include: [{
-              model: Student,
-              as: 'students'
-            }]
-          })
-          .then((classroom) => res.status(201).send(classroom))
-          .catch((error) => res.status(400).send(error));
     },
   };

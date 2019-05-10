@@ -14,16 +14,15 @@ const resolvers = {
         console.log(users) 
         return users;
       });
-      
-      // await Classroom.findAll({})
-      // .then((classrooms) => {
-      //   console.log(classrooms[0]['dataValues']);
-      //   var id = classrooms[0]['dataValues']['id'];
-      //   //return [{id:1, name:"content", email:"test@test.com"}];
-      // })
-        
     },
     authors: (parent, args, { db }, info) => db.author.findAll(),
+    mortgages: async(args) => {
+      return await db.Mortgage.findAll()
+      .then((mortgages) => { 
+        console.log(mortgages) 
+        return mortgages;
+      });
+    },
     post: (parent, { id }, { db }, info) => db.post.findById(id),
     author: (parent, { id }, { db }, info) => db.author.findById(id),
     createPost: (parent, { title, content, authorId }, { db }, info) =>
@@ -32,6 +31,23 @@ const resolvers = {
           content: content,
           authorId: authorId
         }),
+    createMortgage: async(args) => {
+      return await db.Mortgage.create({
+        rate_type: args.rate_type,
+        term: args.term,
+        interest_rate: args.interest_rate,
+        rate_hold_data: args.rate_hold_data,
+        monthly_prepayment: args.monthly_prepayment,
+        lump_sum_prepayment: args.lump_sum_prepayment,
+        pre_approval: args.pre_approval,
+        prime_adjustment: args.prime_adjustment,
+        mortgage_provider: args.mortgage_provider
+      })
+      .then((mortgage) => { 
+        console.log(mortgage) 
+        return mortgage;
+      });
+    },
       updatePost: (parent, { title, content, id }, { db }, info) =>
         db.post.update({
           title: title,

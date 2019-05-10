@@ -35,8 +35,8 @@ module.exports = {
       financial_characteristics: {
         type: Sequelize.STRING
       },
-      user_financial_profile: {
-        type: Sequelize.STRING
+      financial_profile_id: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
