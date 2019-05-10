@@ -1,4 +1,22 @@
-export default `
+'use strict';
+
+const schema = `
+  type User {
+    id: ID!
+    first_name: String!
+    last_name: String!
+    email_address: String!
+    birthday: String!
+    cell_number: String
+    marital_status: Int!
+    dependents: String!
+    address: String!
+    financial_characteristics: String!
+    user_financial_profile: String!
+  }
+  type Mortgage {
+    id: ID!
+  }
   type Author {
     id: ID!
     firstName: String!
@@ -13,6 +31,7 @@ export default `
     author: Author!
   }
   type Query {
+    users: [User!]!
     posts: [Post!]!
     post(id: ID!): Post
     author(id: ID!): Author
@@ -24,3 +43,5 @@ export default `
     deletePost(id: ID!): Int!
   }
 `;
+
+module.exports = schema;

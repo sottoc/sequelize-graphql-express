@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Author.associate = function(models) {
     // associations can be defined here
-    Author.hasMany(models.post);
+    Author.hasMany(models.Post);
   };
   return Author;
 };

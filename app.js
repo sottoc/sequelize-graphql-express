@@ -4,32 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-//import { ApolloServer, gql } from "apollo-server-express";
-var ApolloServer, gql = require('apollo-server-express');
-
-// import typeDefs from "./graphql/schema";
-// import resolvers from "./graphql/resolvers";
-// import db from "./models";
-
-var typeDefs = require('./graphql/schema');
-var resolvers = require('./graphql/resolvers');
-var db = require('./models');
+var _expressGraphql = require('express-graphql');
+var { buildSchema } = require('graphql');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var app = express();
 
-const server = new ApolloServer({
-  typeDefs: gql(typeDefs),
-  resolvers,
-  context: { db }
-});
-
-server.applyMiddleware({ app });
-
-console.log(server.graphqlPath);
-
-
+// var db = require('./models');
+// var faker = require('faker');
+// var times = require('lodash.times');
+// var random =  require('lodash.random');
+var schema = buildSchema(require('./graphql/schema'));
+var resolvers = require('./graphql/resolvers');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +30,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/graphql', _expressGraphql({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
