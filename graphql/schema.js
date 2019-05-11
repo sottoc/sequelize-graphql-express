@@ -70,6 +70,7 @@ const schema = `
     createUserWithFinancial(first_name:String!, last_name:String!, email_address:String!, birthday:String!, cell_number:String!, marital_status:String!, dependents:String!, address:String!, employer_matched_RRSP:Boolean!, has_will:Boolean!, has_budget:Boolean!, pension_type:String!, estimated_income:Int!, RRSP_contribution_room:Int!, TFSA_contribution_room:Int!):User!
     updatePost(id: ID!, title: String, content:String!): [Int!]!
     deletePost(id: ID!): Int!
+    checkEmailaddress(email_address:String!):[User!]!
   }
 `;
 
