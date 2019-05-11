@@ -48,6 +48,41 @@ const resolvers = {
         return mortgage;
       });
     },
+    createFinancialProfile: async(args) => {
+      return await db.FinancialProfile.create({
+        estimated_income: args.estimated_income,
+        RRSP_contribution_room: args.RRSP_contribution_room,
+        TFSA_contribution_room: args.TFSA_contribution_room
+      })
+      .then((financialProfile) => { 
+        console.log(financialProfile) 
+        return financialProfile;
+      });
+    },
+    createUser: async(args) => {
+      return await db.User.create({
+        first_name: args.first_name,
+        last_name: args.last_name,
+        email_address: args.email_address,
+        birthday: args.birthday,
+        cell_number: args.cell_number,
+        marital_status: args.marital_status,
+        dependents: args.dependents,
+        address: args.address,
+        financial_characteristics: args.financial_characteristics,
+        financial_profile_id: args.financial_profile_id,
+      }, {
+        include: [{
+          model: db.FinancialProfile,
+          as: 'financialProfile'
+        }],
+      })
+      .then((user) => { 
+        console.log(user) 
+        return user;
+      });
+    },
+
       updatePost: (parent, { title, content, id }, { db }, info) =>
         db.post.update({
           title: title,

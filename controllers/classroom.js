@@ -20,7 +20,7 @@ module.exports = {
   
     getById(req, res) {
       return Classroom
-        .findById(req.params.id, {
+        .findByPk(req.params.id, {
           include: [{
             model: Student,
             as: 'students'
