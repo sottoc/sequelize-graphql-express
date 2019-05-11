@@ -24,19 +24,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       marital_status: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       dependents: {
         type: Sequelize.STRING
       },
       address: {
         type: Sequelize.STRING
-      },
-      financial_characteristics: {
-        type: Sequelize.STRING
-      },
-      financial_profile_id: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

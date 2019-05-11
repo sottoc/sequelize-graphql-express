@@ -1,21 +1,27 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('FinancialProfiles', {
+    return queryInterface.createTable('FinancialCharacteristics', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      estimated_income: {
+      UserId: {
         type: Sequelize.INTEGER
       },
-      RRSP_contribution_room: {
-        type: Sequelize.INTEGER
+      employer_matched_RRSP: {
+        type: Sequelize.BOOLEAN
       },
-      TFSA_contribution_room: {
-        type: Sequelize.INTEGER
+      has_will: {
+        type: Sequelize.BOOLEAN
+      },
+      has_budget: {
+        type: Sequelize.BOOLEAN
+      },
+      pension_type: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +34,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('FinancialProfiles');
+    return queryInterface.dropTable('FinancialCharacteristics');
   }
 };

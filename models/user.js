@@ -6,16 +6,18 @@ module.exports = (sequelize, DataTypes) => {
     email_address: DataTypes.STRING,
     birthday: DataTypes.STRING,
     cell_number: DataTypes.STRING,
-    marital_status: DataTypes.INTEGER,
+    marital_status: DataTypes.STRING,
     dependents: DataTypes.STRING,
-    address: DataTypes.STRING,
-    financial_characteristics: DataTypes.STRING,
-    financial_profile_id: DataTypes.INTEGER
+    address: DataTypes.STRING
   }, {});
   User.associate = function(models) {
     // associations can be defined here
+    User.hasOne(models.FinancialCharacteristics, {
+      foreignKey: 'UserId',
+      as: 'financialCharacteristics',
+    });
     User.hasOne(models.FinancialProfile, {
-      foreignKey: 'id',
+      foreignKey: 'UserId',
       as: 'financialProfile',
     });
   };

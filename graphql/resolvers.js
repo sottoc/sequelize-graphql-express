@@ -11,7 +11,6 @@ const resolvers = {
     users: async(args) => {
       return await db.User.findAll()
       .then((users) => { 
-        console.log(users) 
         return users;
       });
     },
@@ -19,7 +18,6 @@ const resolvers = {
     mortgages: async(args) => {
       return await db.Mortgage.findAll()
       .then((mortgages) => { 
-        console.log(mortgages) 
         return mortgages;
       });
     },
@@ -44,7 +42,6 @@ const resolvers = {
         mortgage_provider: args.mortgage_provider
       })
       .then((mortgage) => { 
-        console.log(mortgage) 
         return mortgage;
       });
     },
@@ -55,7 +52,6 @@ const resolvers = {
         TFSA_contribution_room: args.TFSA_contribution_room
       })
       .then((financialProfile) => { 
-        console.log(financialProfile) 
         return financialProfile;
       });
     },
@@ -68,9 +64,7 @@ const resolvers = {
         cell_number: args.cell_number,
         marital_status: args.marital_status,
         dependents: args.dependents,
-        address: args.address,
-        financial_characteristics: args.financial_characteristics,
-        financial_profile_id: args.financial_profile_id,
+        address: args.address
       }, {
         include: [{
           model: db.FinancialProfile,
@@ -78,7 +72,41 @@ const resolvers = {
         }],
       })
       .then((user) => { 
-        console.log(user) 
+        return user;
+      });
+    },
+
+    createUserWithFinancial: async(args) => {
+      return await db.User.create({
+        first_name: args.first_name,
+        last_name: args.last_name,
+        email_address: args.email_address,
+        birthday: args.birthday,
+        cell_number: args.cell_number,
+        marital_status: args.marital_status,
+        dependents: args.dependents,
+        address: args.address,
+        financialCharacteristics: {
+          employer_matched_RRSP: args.employer_matched_RRSP,
+          has_will: args.has_will,
+          has_budget: args.has_budget,
+          pension_type: args.pension_type
+        }, 
+        financialProfile: {
+          estimated_income: args.estimated_income,
+          RRSP_contribution_room: args.RRSP_contribution_room,
+          TFSA_contribution_room: args.TFSA_contribution_room
+        }
+      }, {
+        include: [{
+          model: db.FinancialCharacteristics,
+          as: 'financialCharacteristics'
+        }, {
+          model: db.FinancialProfile,
+          as: 'financialProfile'
+        }],
+      })
+      .then((user) => { 
         return user;
       });
     },
